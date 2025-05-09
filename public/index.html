@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Track Local IP Location</title>
+        <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            color: #333;
+        }
+        #location {
+            font-size: 18px;
+            margin-top: 20px;
+        }
+        #error {
+            color: red;
+            font-size: 16px;
+        }
+        #track-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+    </style>
+    </head>
+    <body>
+        <h1>Track Local IP Location</h1>
+        <button id="track-button" onclick="getLocation()">Get Location</button>
+        <p id="location"></p>
+        <p id="error"></p>
+
+        <script>
+        function getLocation() {
+            fetch('/location')  // Get location from local server
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("location").innerHTML = `Location: ${data.city}, ${data.region}, ${data.country} <br> Latitude: ${data.loc.split(',')[0]}, Longitude: ${data.loc.split(',')[1]}`;
+                })
+                .catch(error => {
+                    console.error("Error fetching location:", error);
+                    document.getElementById("error").innerHTML = "Unable to fetch location.";
+                });
+        }
+    </script>
+    </body>
+</html>

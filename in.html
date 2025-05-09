@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>IP Location Fetch</title>
+    </head>
+    <body>
+        <h2>Your Location (via IPAPI):</h2>
+        <p id="location">Fetching...</p>
+
+        <script>
+    const apiKey = "d5dae5dc-dc8b-4cb8-9e91-b6776d8e3662";  // replace with your actual key
+    fetch(`https://ipapi.co/json/?key=${apiKey}`)
+      .then(response => {
+        if (!response.ok) throw new Error("API limit or invalid key");
+        return response.json();
+      })
+      .then(data => {
+        const { city, region, country_name, latitude, longitude, ip } = data;
+        document.getElementById("location").innerHTML = `
+          IP: ${ip}<br>
+          City: ${city}<br>
+          Region: ${region}<br>
+          Country: ${country_name}<br>
+          Latitude: ${latitude}<br>
+          Longitude: ${longitude}
+        `;
+      })
+      .catch(error => {
+        document.getElementById("location").textContent = 
+          "Unable to fetch location. " + error.message;
+        console.error("Error:", error);
+      });
+  </script>
+    </body>
+</html>
